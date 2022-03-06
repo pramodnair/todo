@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const ejs = require("ejs");
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
+const env = require("dotenv");
+env.config();
 
 const app = express();
 
@@ -11,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-mongoose.connect("mongodb+srv://pramodnair:4M0ng00nly!@cluster0.d1ayl.mongodb.net/todoListDB?retryWrites=true&w=majority");
+mongoose.connect(process.env.MONGO_URI);
 
 const itemSchema = mongoose.Schema({
   name: String,
@@ -121,5 +123,5 @@ app.post("/delete", (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log("server is running on port 3000")
-})
+  console.log("server is running on port 3000");
+});
